@@ -33,26 +33,43 @@
   <body>
 
     <h1>範囲を設定してください</h1>
-    <input type="button" name="" value="中心座標をPOST" placeholder="" onclick="get_position()">
+    <input type="button" name="" value="設定を保存" placeholder="" onclick="get_position()">
+    <input type="button" name="" value="設定を確認" placeholder="" onclick="get_setting()">
     <div id="map"></div>
     <script>
     var map;
+    var circle;
+    function get_setting(){
+      console.log(localStorage.getItem('center_lat'));
+      console.log(localStorage.getItem('s'));
+
+    }
     function get_position(){
-      var latlng = map.getCenter();
-      var lat = latlng.lat();
-      var lng = latlng.lng();
+      var c_canter = circle.getCenter();
+      var lat = c_canter.lat();
+      var lng = c_canter.lng();
       console.log(lat,lng);
-      $.post("http://10.38.22.18/gps_manager/index.php",
-        { lat: lat, lng: lng },
-        function(data){
-          console.log(data);
-          //リクエストが成功した際に実行する関数
-        }
-      );
+      var c_radius = circle.getRadius();
+      localStorage.setItem('center_lat', lat);
+      localStorage.setItem('center_lng', lng);
+      localStorage.setItem('radius', c_radius);
+      // $.post("http://rakutan.esy.es/gps_manager/index.php",
+      //   { lat: lat, lng: lng },
+      //   function(data){
+      //     console.log(data);
+      //     //リクエストが成功した際に実行する関数
+      //   }
+      // );
     }
 
       function successFunc( position ){
-        var myLatLng = {lat: position.coords.latitude, lng: position.coords.longitude};
+        if (localStorage.getItem('center_lat')=='') {
+          var myLatLng = {lat: position.coords.latitude, lng: position.coords.longitude};
+          var radius = 5000;
+        }else{
+          var myLatLng = {lat: localStorage.getItem('center_lat'), lng: localStorage.getItem('center_lng')};
+          var radius = localStorage.getItem('radius');
+        }
         var markers = [{lat: 35.611, lng: 139.554}]
         
         map = new google.maps.Map(document.getElementById('map'), {
@@ -66,17 +83,16 @@
             title: 'Hello World!'
           });
         }
-        new google.maps.Circle({
+        circle = new google.maps.Circle({
           center: {lat: position.coords.latitude, lng: position.coords.longitude},       // 中心点(google.maps.LatLng)
           editable: true,
           fillColor: '#ff0000',   // 塗りつぶし色
           fillOpacity: 0.5,       // 塗りつぶし透過度（0: 透明 ⇔ 1:不透明）
           map: map,             // 表示させる地図（google.maps.Map）
-          radius: 5000,          // 半径（ｍ）
+          radius: radius,          // 半径（ｍ）
           strokeColor: '#ff0000', // 外周色 
           strokeOpacity: 1,       // 外周透過度（0: 透明 ⇔ 1:不透明）
           strokeWeight: 1         // 外周太さ（ピクセル）
-
          });
 
       }
