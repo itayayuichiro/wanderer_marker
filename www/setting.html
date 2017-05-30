@@ -52,9 +52,8 @@
     }
 
       function successFunc( position ){
-        console.log(position);
         var myLatLng = {lat: position.coords.latitude, lng: position.coords.longitude};
-        var markers = [{lat: 35.611, lng: 139.554},{lat: 36.611, lng: 134.554}]
+        var markers = [{lat: 35.611, lng: 139.554}]
         
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 12,
