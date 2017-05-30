@@ -34,7 +34,6 @@
 
     <h1>範囲を設定してください</h1>
     <input type="button" name="" value="中心座標をPOST" placeholder="" onclick="get_position()">
-    <p>test</p>
     <div id="map"></div>
     <script>
     var map;
@@ -43,7 +42,7 @@
       var lat = latlng.lat();
       var lng = latlng.lng();
       console.log(lat,lng);
-      $.post("http://localhost/gps_manager/index.php",
+      $.post("http://10.38.22.18/gps_manager/index.php",
         { lat: lat, lng: lng },
         function(data){
           console.log(data);
