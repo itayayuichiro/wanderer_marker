@@ -31,13 +31,29 @@
   <body>
 
     <h1>範囲を設定してください</h1>
+    <input type="button" name="" value="中心座標をPOST" placeholder="" onclick="get_position()">
     <div id="map"></div>
     <script>
+    var map;
+    function get_position(){
+      var latlng = map.getCenter();
+      var lat = latlng.lat();
+      var lng = latlng.lng();
+      console.log(lat,lng);
+      $.post("http://localhost/gps_manager/index.php",
+        { lat: lat, lng: lng },
+        function(data){
+          //リクエストが成功した際に実行する関数
+        }
+      );
+    }
+
       function successFunc( position ){
         console.log(position);
         var myLatLng = {lat: position.coords.latitude, lng: position.coords.longitude};
         var markers = [{lat: 35.611, lng: 139.554},{lat: 36.611, lng: 134.554}]
-        var map = new google.maps.Map(document.getElementById('map'), {
+        
+        map = new google.maps.Map(document.getElementById('map'), {
           zoom: 15,
           center: myLatLng
         });
@@ -48,7 +64,6 @@
             title: 'Hello World!'
           });
         }
-        $('img').remove();
       }
       function errorFunc( error )
       {
