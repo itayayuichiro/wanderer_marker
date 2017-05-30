@@ -57,7 +57,7 @@
         var markers = [{lat: 35.611, lng: 139.554},{lat: 36.611, lng: 134.554}]
         
         map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 15,
+          zoom: 12,
           center: myLatLng
         });
         for(var i = 0;i < markers.length;i++){
@@ -67,6 +67,19 @@
             title: 'Hello World!'
           });
         }
+        new google.maps.Circle({
+          center: {lat: position.coords.latitude, lng: position.coords.longitude},       // 中心点(google.maps.LatLng)
+          editable: true,
+          fillColor: '#ff0000',   // 塗りつぶし色
+          fillOpacity: 0.5,       // 塗りつぶし透過度（0: 透明 ⇔ 1:不透明）
+          map: map,             // 表示させる地図（google.maps.Map）
+          radius: 5000,          // 半径（ｍ）
+          strokeColor: '#ff0000', // 外周色 
+          strokeOpacity: 1,       // 外周透過度（0: 透明 ⇔ 1:不透明）
+          strokeWeight: 1         // 外周太さ（ピクセル）
+
+         });
+
       }
       function errorFunc( error )
       {
