@@ -5,13 +5,45 @@
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
-    <script type="text/javascript" src="components/loader.js"></script>
-    <link rel="stylesheet" type="text/css" href="components/loader.css">
-    <link rel="stylesheet" href="phonegap-demo/master.css" type="text/css" media="screen" title="no title">
-    <script type="text/javascript" charset="utf-8" src="phonegap-demo/main.js"></script>
+    <link rel="stylesheet" type="text/css" href="../components/loader.css">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+
   </head>
   <body>
 
-    <h1>Welcome to Cordova!</h1>
+    <h1>警告をする範囲を設定してください</h1>
+    <div id="map"></div>
+    <script>
+      function initMap() {
+        var myLatLng = {lat: -25.363, lng: 131.044};
+        var markers = [{lat: 35.611, lng: 139.554},{lat: -23.363, lng: 130.044}]
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 6,
+          center: myLatLng
+        });
+        for(var i = 0;i < markers.length;i++){
+          var marker = new google.maps.Marker({
+            position: markers[i],
+            map: map,
+            title: 'Hello World!'
+          });
+
+        }
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYJ8GLMD91pVWUo7gE1tnUcsDmxw5ZMnU&callback=initMap" async defer></script>
+
   </body>
 </html>
