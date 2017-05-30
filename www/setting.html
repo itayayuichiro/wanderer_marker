@@ -63,12 +63,14 @@
     }
 
       function successFunc( position ){
-        if (localStorage.getItem('center_lat')=='') {
+        if (localStorage.getItem('center_lat')==null) {
+          console.log('前なし');
           var myLatLng = {lat: position.coords.latitude, lng: position.coords.longitude};
           var radius = 5000;
         }else{
-          var myLatLng = {lat: localStorage.getItem('center_lat'), lng: localStorage.getItem('center_lng')};
-          var radius = localStorage.getItem('radius');
+          console.log('前あり');
+          var myLatLng = {lat: Number(localStorage.getItem('center_lat')), lng: Number(localStorage.getItem('center_lng'))};
+          var radius = Number(localStorage.getItem('radius'));
         }
         var markers = [{lat: 35.611, lng: 139.554}]
         
@@ -84,7 +86,7 @@
           });
         }
         circle = new google.maps.Circle({
-          center: {lat: position.coords.latitude, lng: position.coords.longitude},       // 中心点(google.maps.LatLng)
+          center: myLatLng,       // 中心点(google.maps.LatLng)
           editable: true,
           fillColor: '#ff0000',   // 塗りつぶし色
           fillOpacity: 0.5,       // 塗りつぶし透過度（0: 透明 ⇔ 1:不透明）
